@@ -226,5 +226,20 @@
           "}"
         ],
         "description": "nPr"
+    },
+    "CF Test Case Finder": {
+        "prefix": "CfTestCaseFinder",
+        "body": [
+          "// Find CF Test Case",
+          "for(int ith = 1; ith <= t; ith++)  {",
+          "    // place input here",
+          "    if(ith == ${1:ithLine} && t == ${2:TotalTestCases}) {",
+          "        printf(\" \\n\");",
+          "    }",
+          "    if(t == ${2:TotalTestCases}) continue;",
+          "    // rest of the code here",
+          "}"
+        ],
+        "description": "CF Test Case Finder"
     }
 }
