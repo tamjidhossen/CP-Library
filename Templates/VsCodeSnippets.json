@@ -231,15 +231,18 @@
         "prefix": "CfTestCaseFinder",
         "body": [
           "// Find CF Test Case",
-          "for(int ith = 1; ith <= t; ith++)  {",
+          "for(int ith = 1; ith <= t; ith++) {",
           "    // place input here",
+          "    ",
           "    if(ith == ${1:ithLine} && t == ${2:TotalTestCases}) {",
+          "        //print output here",
           "        printf(\" \\n\");",
           "    }",
           "    if(t == ${2:TotalTestCases}) continue;",
           "    // rest of the code here",
+          "    ",
           "}"
         ],
-        "description": "CF Test Case Finder."
+        "description": "CF Test Case Finder"
     }
 }
