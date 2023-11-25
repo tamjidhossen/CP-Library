@@ -180,6 +180,7 @@
           "int Factorial[N+1];",
           "void factorialPreCal() {            // call this function inside main()",
           "    int ithFact = 1;",
+          "    Factorial[0] = 1;",
           "    for(int i = 1; i <= N; i++) {",
           "        ithFact *= i;",
           "        // ithFact %= MOD;",
