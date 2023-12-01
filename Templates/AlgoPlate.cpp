@@ -86,13 +86,9 @@ void _print(ell t) {cerr << t;}
 
     (a/b) mod m = ((a mod m)⋅(b^-1 mod m)) mod m
 */
-// __builtin_popcountll(n); -> counts number of set bits
-// set bit -> [ n | (1 << ith) ];
-// unset bit -> [ n & (~(1 << ith)) ];
-// to uppercase -> [ 'a' ^ 32 ];
-bool isPowerof2(int n){ return n & (n-1); }
-int toggleBit(int n, int ith) { return n ^ (1 << ith);}
-int numOfDigits(int n) { return floor(log10(n) + 1); } 
+
+
+
 //--------------------Binary Exponentiation----------------------//
 /*
     # Inverse : (n^-1)%m = (n^m-2)%m
@@ -110,6 +106,8 @@ int BinaryExponentiation(int x, int y){
     return res;
 }
 //----------------------------------------------------------------//
+
+
 //----------------------------Sieve------------------------------//
 const int N = 1e7+7;
 bitset<N> marked;
@@ -128,6 +126,27 @@ void sieve(int n){
 }
 //----------------------------------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////// Bit Manipulation /////////////////////////////////////////////////
+// __builtin_popcountll(n); -> counts number of set bits
+// n set bit number -> (1 << n) - 1 
+// set bit -> [ n | (1 << ith) ];
+// unset bit -> [ n & (~(1 << ith)) ];
+// to uppercase -> [ 'a' ^ 32 ];
+bool isPowerof2(int n){ return n & (n-1); }
+int toggleBit(int n, int ith) { return n ^ (1 << ith);}
+int numOfDigits(int n) { return floor(log10(n) + 1); } 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
