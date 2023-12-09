@@ -449,6 +449,43 @@ void Bipartite_Graph_Coloring() {
     if(dfs(1, 0)) cout<<"Bipartite\n";
     else cout<<"Not Bipartite\n";
 }
+
+
+
+
+//-------------------------------------DSU-----------------------------------------//
+
+vector<int>parent, childs;
+struct {
+    void init(int n) {
+        parent.resize(n+1);
+        childs.resize(n+1);
+        for(int i = 0; i <= n; i++) {
+            parent[i] = i;
+            childs[i] = 1;
+        }
+    }
+    int findRoot(int v) {
+        if(v == parent[v]) return v;
+        //return findRoot(parent[v]);
+        //optimized by, every node pointing to SuperParent
+        return parent[v] = findRoot(parent[v]);
+    }
+    bool uniteSets(int u, int v) {
+        u = findRoot(u);
+        v = findRoot(v);
+        if(u != v) {
+            if(childs[u] < childs[v]) swap(childs[u], childs[v]);
+            parent[v] = u;
+            childs[u] += childs[v];
+            return true;
+        }
+        return false;
+    }
+} DSU;
+//-------------------------------------------------------------------------------------------------------------//
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
