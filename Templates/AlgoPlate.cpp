@@ -243,6 +243,219 @@ int nPr(int n, int r) {
 
 
 
+//////////////////////////////////////////////////////Graph///////////////////////////////////////////////////
+/*                       |notes|
+# for DFS in,
+    (i)  acyclic graph(tree)     -> pass parameter(node, parent node)        
+    (ii) cyclic graph            -> use visited array
+
+# Single Source Shortest path [Dijkstra]
+    (i)  weight =  1 [Can be done with BFS]
+    (ii) weight >= 1 [Dijkstra]
+
+# All Pair Shortest Path [Floyd Warshell]
+
+# Tree Diameter (Max Distance Between two nodes)
+    (i)   DFS from root and find the farthest node from root (say, x)
+    (ii)  Now, from x DFS and find the farthest node (say, y)
+    (iii) Distance between x and y is the diameter
+
+# Path Between any two Nodes (lest say, x and y)
+    (i)   Keep parent of ith node in vector while doing BFS from x to y
+    (ii)  Backtrack from y to x by accessing last one's parent
+
+# Bipartite Graph (a graph whose vertices can be divided into two disjoint and independent sets)
+    (i)  can have cycle
+*/
+
+const int n = 10;
+//------------------------------DFS--------------------------------//
+vector<vector<int>>adj; //resize in solve() function
+void DFS(int curr, int par) { // current and parent node
+    for(auto i: adj[curr]) {
+        if(i != par) {
+            DFS(i, curr);
+        }
+    }
+}
+//-----------------------------------------------------------------//
+
+//-------------------------------BFS-------------------------------//
+vector<vector<int>>adj; // resize in solve() function
+vector<bool>vis; // assign all false inside solve() function
+void BFS(int initial) {
+    queue<int>q;
+    q.push(initial);
+    while(!q.empty()) {
+        int curr = q.front();
+        cout<<curr<<" ";
+        vis[curr] = true;
+        for(auto i: adj[curr]) if(!vis[i]) q.push(i);
+        q.pop();
+    }
+}
+//-----------------------------------------------------------------//
+
+//------------------------Connected Componnent----------------------------------//
+vector<vector<int>>adj;
+vector<bool>vis;
+void DFS(int curr) { // current node
+    vis[curr] = true;
+    for(auto i: adj[curr]) {
+        if(!vis[i]) {
+            DFS(i);
+        }
+    }
+}
+void connectedComponnent() { 
+    // adj.resize(n+1, vector<int>()); -> in solve()
+    // vis.assign(n+1, false); -> in solve()
+    int cc = 0; // number of connected component
+    for(int i = 1; i <= n; i++) {
+        if(!vis[i]) {
+            cc++; DFS(i);
+        }
+    }
+    cout << cc << endl;
+}
+//--------------------------------------------------------------------------------//
+
+
+
+//------------------------Single Source Shortest Path with BFS(w = 1)----------------------------------//
+vector<vector<int>>adj;
+vector<int>dist; // from 1st to other nodes
+void BFS(int initial) {
+    queue<int>q;
+    q.push(initial);
+    dist[initial] = 0; 
+    while(!q.empty()) {
+        int curr = q.front();
+        for(auto i: adj[curr]) {
+            if(dist[i] > dist[curr]+1) { // here, curr is the parent of i
+                dist[i] = dist[curr] + 1;      
+                q.push(i);
+            }      
+        }
+        q.pop();
+    }
+}
+void SSSP_Unweighted_BFS(){ 
+    // dist.assign(n+1, INT_MAX); -> in solve()
+    // adj.resize(n+1, vector<int>()); -> in solve()
+    int begNode = 1;
+    BFS(begNode);
+    int tar; cin>>tar;
+    cout<<"Dist from "<<begNode<<" to "<<tar<<": "<<dist[tar]<<endl;
+}
+//-----------------------------------------------------------------------------------------------------//
+
+
+
+//----------------------------------------------Tree Diameter------------------------------------------//
+vector<vector<int>>adj;
+int x, y;
+int mx1 = 0, mx2 = 0;
+void DFS1(int curr, int par, int lvl) {
+    if(lvl > mx1) {
+        mx1 = lvl; x = curr;
+    }
+    for(auto i: adj[curr]) {
+        if(i != par) {
+            DFS1(i, curr, lvl+1);
+        }
+    }
+}
+void DFS2(int curr, int par, int lvl) {
+    if(lvl > mx2) {
+        mx2 = lvl; y = curr;
+    }
+    for(auto i: adj[curr]) {
+        if(i != par) {
+            DFS2(i, curr, lvl+1);
+        }
+    }
+}
+void TreeDiameter() {
+    // adj.resize(n+1, vector<int>()); -> in solve()
+    DFS1(1, -1, 0);
+    DFS2(x, -1, 0);
+    cout<<"Distance between "<<x<<" and "<<y<<" is "<<mx2<<endl;
+}
+//-----------------------------------------------------------------------------------------------------//
+
+
+
+//-----------------------------------Path Between Two Nodes--------------------------------------------//
+vector<vector<int>>adj;
+vector<int>parent;
+vector<bool>vis;
+int x, y;
+void BFS(int initial) {
+    queue<int>q;
+    q.push(initial);
+    while(!q.empty()) {
+        int curr = q.front();
+        vis[curr] = true;
+        if(curr == y) return;
+        for(auto i: adj[curr]) {
+            if(!vis[i]) {
+                q.push(i);
+                parent[i] = curr;
+            }
+        }
+        q.pop();
+    }
+}
+void backtrack(vector<int>&v, int last) {
+    while(last != -1) {
+        v.pb(last);
+        last = parent[last];
+    }
+    reverse(v.begin(), v.end());
+}
+void Path_Between_Two_Nodes(int x, int y) {
+    // adj.resize(n+1, vector<int>()); -> in solve()
+    BFS(x);
+    vector<int>ans;
+    backtrack(ans, y);
+    for(int i = 0; i < size(ans); i++) cout<<ans[i]<<" ";
+    cout<<endl;
+} 
+//-----------------------------------------------------------------------------------------------------//
+
+
+
+
+//-------------------------------------Bipartite Graph-------------------------------------------------//
+vector<vector<int>>adj;
+vector<int>color;
+bool dfs(int curr, int col) {
+    color[curr] = col;
+    for(auto i: adj[curr]) {
+        if(color[i] == -1) {
+            if(!dfs(i, col^1)) { // if false for next vertex
+                return false;
+            }
+        } else {
+            if(color[curr] == color[i]) return false;
+        }
+    }
+    return true;
+}
+void Bipartite_Graph_Coloring() {
+    // adj.resize(n+1, vector<int>()); -> in solve
+    // color.assign(n+1, -1);-> in solve
+    if(dfs(1, 0)) cout<<"Bipartite\n";
+    else cout<<"Not Bipartite\n";
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 void solve()
 {
     int n = 10;
@@ -253,7 +466,7 @@ void solve()
 
     deque<int> dq; // it's just a duble ended vector
     
-    ////////Function inside main()/////////
+    ////////Function inside main()///////// -> Lambda Function
     vector<int> v = {1, 2, 3};
     auto func = [&](vector<int>v) -> int { //[&] means all memory of main() is accessable
         int sum = 0;                       // () parameter can be empty
@@ -280,13 +493,14 @@ void solve()
     a.push_back({1,4});
     a.push_back({2,1});
 
+    ////////////////////////Custome Sort////////////////////////
     sort(a.begin(),a.end(),[&](pair<int,int>x, pair<int,int>y){
         if(x.first==y.first){
             return (x.second<y.second);
         }
         return (x.first<y.first);
     });
-    /////////////////////////////////////
+    //////////////////////////////////////////////////////////
 
     ///////////isPerfectSquare///////////
     auto isPrefectSquare = [&](int value) -> bool { // lambda function
