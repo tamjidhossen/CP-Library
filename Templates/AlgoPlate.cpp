@@ -77,6 +77,13 @@ void _print(ell t) {cerr << t;}
 
 #define MOD 1000000007
 ///////////////////////////////////////////////// Number Theory /////////////////////////////////////////////////
+/*          Some Observations
+    if  a mod k = x, one of the following holds:
+        a mod 2k = x
+        a mod 2k = x+k
+*/
+
+
 /*          Modular Arithmetic
     (a+b) mod m = ((a mod m)+(b mod m)) mod m
 
@@ -86,7 +93,6 @@ void _print(ell t) {cerr << t;}
 
     (a/b) mod m = ((a mod m)⋅(b^-1 mod m)) mod m
 */
-
 
 
 //--------------------Binary Exponentiation----------------------//
