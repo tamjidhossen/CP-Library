@@ -81,6 +81,7 @@ void _print(ell t) {cerr << t;}
     if  a mod k = x, one of the following holds:
         a mod 2k = x
         a mod 2k = x+k
+    if a % k == b % k then (a-b)%k == 0
 */
 
 
