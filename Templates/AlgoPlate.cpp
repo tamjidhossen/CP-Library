@@ -173,7 +173,7 @@ Subtraction:
     a-b = ((a|b)⊕b)-(b⊕(a&b))
 
 */
-bool isPowerof2(int n){ return n & (n-1); }
+bool isPowerof2(int n){ return (!(n & (n - 1)) && n); }
 int toggleBit(int n, int ith) { return n ^ (1 << ith);}
 int numOfDigits(int n) { return floor(log10(n) + 1); } 
 
