@@ -20,18 +20,16 @@ using namespace std;
 
 void _print(int t) {cerr << t;}void _print(string t) {cerr << t;}void _print(char t) {cerr << t;}
 void _print(lld t) {cerr << t;}void _print(double t) {cerr << t;}void _print(ull t) {cerr << t;}
-template <class T, class V> void _print(pair <T, V> p); void _print(bool t) {cerr << t;}
+template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);template <class T> void _print(set <T> v);
 template <class T, class V> void _print(map <T, V> v);template <class T> void _print(multiset <T> v);
 template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.first); cerr << ","; _print(p.second); cerr << "}";}
 template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void __print(vector<vector<T>> v) {cerr << "\n"; for(auto i:v) { for(auto j:i) {_print(j); cerr << " ";}cerr << "\n";}}
+template <class T> void __print(vector<vector<T>> v) {cerr << endl; for(auto i:v) { for(auto j:i) {_print(j); cerr << " ";} cerr << endl;}}
 template <class T> void _print(deque <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
 
 
 
@@ -84,7 +82,7 @@ void _print(ell t) {cerr << t;}
     if  a mod k = x, one of the following holds:
         a mod 2k = x
         a mod 2k = x+k
-    if a % k == b % k then (a-b)%k == 0
+    if a % k == b % k then (a-b)%k==0
 */
 
 
@@ -512,6 +510,17 @@ void solve()
     set<char> my_name(name.begin(), name.end()); // stores all elements of string
 
     deque<int> dq; // it's just a duble ended vector
+
+
+    /////////upper_bound, lower_bound functions///////////
+
+    auto lower = lower_bound(all(v), n); //returns iterator
+    // index of first occurrence of the value in the range
+    int upper = upper_bound(all(v), n) - v.begin();
+    // index of the first occurrence of a value that is greater than the searched value
+    //If not present, than returns the next index
+
+    ///////////////////////////////////////////////////////
     
     ////////Function inside main()///////// -> Lambda Function
     vector<int> v = {1, 2, 3};
@@ -579,3 +588,10 @@ int32_t main()
 
     return 0;
 }
+
+
+/* TIPS
+    -> do as less division as possible
+    -> check for out of bound in arrays (Mostly Results in RTE)
+    -> any posibility of negative index?
+*/
