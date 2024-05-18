@@ -145,6 +145,7 @@ void sieve(int n){
 
 ///////////////////////////////////////////////// Bit Manipulation /////////////////////////////////////////////////
 // __builtin_popcountll(n); -> counts number of set bits
+// check bit (n & (1 << ith))
 // n set bit number -> (1 << n) - 1 
 // set bit -> [ n | (1 << ith) ];
 // unset bit -> [ n & (~(1 << ith)) ];
@@ -273,7 +274,9 @@ int nPr(int n, int r) {
     (ii)  Backtrack from y to x by accessing last one's parent
 
 # Bipartite Graph (a graph whose vertices can be divided into two disjoint and independent sets)
-    (i)  can have cycle
+    (i)   two adjacent nodes can't have the same color
+    (ii)  can have cycle
+    (iii) bipartite graphs don't have odd length cycles, can have even lengh cycles; (means number of edges making a cycle)
 */
 
 const int n = 10;
@@ -505,6 +508,7 @@ void solve()
 {
     int n = 10;
     vector<int>v(n);
+    vector<int>newV(v.begin(), v.begin() + n); // copies first 10 elements of v to newV
 
     string name = "HelloWorld";
     set<char> my_name(name.begin(), name.end()); // stores all elements of string
@@ -594,4 +598,5 @@ int32_t main()
     -> do as less division as possible
     -> check for out of bound in arrays (Mostly Results in RTE)
     -> any posibility of negative index?
+    -> outer loop and inner loop shouldn't have same iterator variables
 */
