@@ -150,6 +150,8 @@ void sieve(int n){
 // set bit -> [ n | (1 << ith) ];
 // unset bit -> [ n & (~(1 << ith)) ];
 // to uppercase -> [ 'a' ^ 32 ];
+// flip the kth bit -> X = X ^ (1 << k);
+
 
 /*
 Some properties of bitwise operations:
@@ -592,7 +594,6 @@ int32_t main()
 
     return 0;
 }
-
 
 /* TIPS
     -> do as less division as possible
