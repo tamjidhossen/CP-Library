@@ -504,6 +504,34 @@ struct {
 
 
 
+/////////////////////////////////////////////////// SORTING ////////////////////////////////////////////////////
+
+void merge(vector<int>&v, int l, int mid, int r) {
+    int p = l, q = mid + 1, k = 0;
+    vector<int>temp(r - l + 1);
+    for(int i = l; i <= r; i++) {
+        if(p > mid) temp[k++] = v[q++];
+        else if(q > r) temp[k++] = v[p++];
+        else if(v[p] < v[q]) temp[k++] = v[p++];
+        else {
+            temp[k++] = v[q++];
+            // inv += mid - p + 1; // inv += q - p - (q - mid - 1) -> for inverse calculation
+        }
+    }
+    for(int i = 0; i < k; i++) v[l++] = temp[i];
+}
+
+void mergeSort(vector<int>&v, int l, int r) {
+    if(l < r) {
+        int mid = (l + r) / 2;
+        mergeSort(v, l, mid);
+        mergeSort(v, mid+1, r);
+        merge(v, l, mid, r);
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 void solve()
