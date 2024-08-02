@@ -145,13 +145,14 @@ void sieve(int n){
 
 ///////////////////////////////////////////////// Bit Manipulation /////////////////////////////////////////////////
 // __builtin_popcountll(n); -> counts number of set bits
-// check bit (n & (1 << ith))
-// n set bit number -> (1 << n) - 1 
-// set bit -> [ n | (1 << ith) ];
-// unset bit -> [ n & (~(1 << ith)) ];
+// check bit (n & (1LL << ith))
+// n set bit number -> (1LL << n) - 1 
+// set bit -> [ n | (1LL << ith) ];
+// unset bit -> [ n & (~(1LL << ith)) ];
 // to uppercase -> [ 'a' ^ 32 ];
-// flip the kth bit -> X = X ^ (1 << k);
+// flip the kth bit -> X = X ^ (1LL << k);
 
+// Use 1LL when shifting bits : (1LL << x)
 
 /*
 Some properties of bitwise operations:
