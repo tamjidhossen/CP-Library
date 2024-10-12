@@ -32,6 +32,20 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 
+// -------------------------------------- Shorter Debug Code -------------------------------------- //
+#ifndef ONLINE_JUDGE
+#define debug(args...) cerr << "(" << #args << "):", dbg_out(args);
+#else
+#define debug(args...)
+#endif
+
+template<typename A, typename B> ostream& operator<<(ostream& os, const pair<A, B>&p) {return os<<'(' << p.first << ", " << p.second << ')';}
+template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream& os, const T_container& v) {os << '{'; string sep;for(const T& x: v) os << sep << x, sep = ", "; return os << '}';}
+void dbg_out() {cerr<<endl;}
+template <typename Head, typename... Tail> void dbg_out(Head H, Tail... T) {cerr << " " << H << ","; dbg_out(T...); }
+// ------------------------------------------------------------------------------------------------- //
+
+
 
 ///////////////////////////////////////////////// int128 /////////////////////////////////////////////////
 /*
@@ -626,7 +640,12 @@ int32_t main()
 
 /* TIPS
     -> do as less division as possible
+    -> float (least precise) < double < long double (most precise)
+    -> check for integer overflow
+    -> instead of a == b, use fabs(a - b) < epsilon(1e-9) in comparing double/float
+    -> using a fixed number of iterations in BS (e.g., 100) is often more reliable than epsilon-based (e.g., absolute or    relative error of 10^6) termination
     -> check for out of bound in arrays (Mostly Results in RTE)
     -> any posibility of negative index?
     -> outer loop and inner loop shouldn't have same iterator variables
+    -> read all the problems for div 4
 */
