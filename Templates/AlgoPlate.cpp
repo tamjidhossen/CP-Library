@@ -34,15 +34,15 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 // -------------------------------------- Shorter Debug Code -------------------------------------- //
 #ifndef ONLINE_JUDGE
-#define debug(args...) cerr << "(" << #args << "):", dbg_out(args);
+#define debug(args...) cerr << "(" << #args << "):", _print(args);
 #else
 #define debug(args...)
 #endif
 
 template<typename A, typename B> ostream& operator<<(ostream& os, const pair<A, B>&p) {return os<<'(' << p.first << ", " << p.second << ')';}
 template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream& os, const T_container& v) {os << '{'; string sep;for(const T& x: v) os << sep << x, sep = ", "; return os << '}';}
-void dbg_out() {cerr<<endl;}
-template <typename Head, typename... Tail> void dbg_out(Head H, Tail... T) {cerr << " " << H << ","; dbg_out(T...); }
+void _print() {cerr<<endl;}
+template <typename Head, typename... Tail> void _print(Head H, Tail... T) {cerr << " " << H << ","; _print(T...); }
 // ------------------------------------------------------------------------------------------------- //
 
 
@@ -648,4 +648,9 @@ int32_t main()
     -> any posibility of negative index?
     -> outer loop and inner loop shouldn't have same iterator variables
     -> read all the problems for div 4
+*/
+/*  Send debug log to file
+    ofstream fcerr("log.txt"); // paste before debug template
+    // replace all cerr with fcerr
+    fcerr.close(); // close the file before return 0;
 */
