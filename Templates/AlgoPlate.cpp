@@ -648,6 +648,10 @@ int32_t main()
     -> any posibility of negative index?
     -> outer loop and inner loop shouldn't have same iterator variables
     -> read all the problems for div 4
+    -> To pass tricky test cases we can sometime shuffle the array
+        mt19937 rng(chrono::steady_clock::now().time_since_epoch().count()); //generates seed
+        shuffle(nums.begin(), nums.end(), rng); // O(n)
+    ->
 */
 /*  Send debug log to file
     ofstream fcerr("log.txt"); // paste before debug template
