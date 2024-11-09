@@ -286,7 +286,7 @@ int nPr(int n, int r) {
     (ii)  Now, from x DFS and find the farthest node (say, y)
     (iii) Distance between x and y is the diameter
 
-# Path Between any two Nodes (lest say, x and y)
+# Path Between any two Nodes (let's say, x and y)
     (i)   Keep parent of ith node in vector while doing BFS from x to y
     (ii)  Backtrack from y to x by accessing last one's parent
 
@@ -646,6 +646,7 @@ int32_t main()
     -> check for integer overflow
     -> instead of a == b, use fabs(a - b) < epsilon(1e-9) in comparing double/float
     -> using a fixed number of iterations in BS (e.g., 100) is often more reliable than epsilon-based (e.g., absolute or    relative error of 10^6) termination
+    -> asigning lo and hi as constant(e.g, 1e9) numbers may result in wrong answer and we should calculate bounds based on problems constraints for floating based precesion calculating BS
     -> check for out of bound in arrays (Mostly Results in RTE)
     -> any posibility of negative index?
     -> outer loop and inner loop shouldn't have same iterator variables
