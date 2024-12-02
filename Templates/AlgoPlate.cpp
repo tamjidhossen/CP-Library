@@ -536,6 +536,13 @@ hash(s[i...j]) = (hash(s[0...j]) - hash(0...i - 1)) / (p^i);
 1. used double hashing.
 2. base = 31 and mod = 1e9+7 works if string's value = s[i] - 'a' + 1; (1 - 26)
 3. call precal_pow() from main()
+4. if getting WA even after 2 Hashes:
+    i. use unpopular primes (!1e9 + 7)
+    ii. use 3 hashes (might give TLE as % is very heavy operation)
+    iii. use other algo's
+5. some base = 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499;
+6. use int instead of long long and cast to ll with 1LL when doing any multiplication
+7. using Long Long Int could give TLE, because ll takes 2x more memory then int and some calculations (multiplication, modulo) are very expensive.
 */
 int N = 1e6 + 9; 
 const int MOD1 = 127657753, MOD2 = 987654319;
@@ -547,9 +554,9 @@ int BE(int x, int y, int mod){
     x %= mod;
     if(x < 0) x += mod;
     while(y > 0){
-        if(y & 1) res = (res * x) % mod; // MOD
+        if(y & 1) res = (1LL * res * x) % mod; // MOD
         y >>= 1; // -> y /= 2;
-        x = (x * x) % mod; // MOD
+        x = (1LL * x * x) % mod; // MOD
     } // MOD for larger numbers
     return res;
 }
@@ -744,6 +751,7 @@ int32_t main()
         mt19937 rng(chrono::steady_clock::now().time_since_epoch().count()); //generates seed
         shuffle(nums.begin(), nums.end(), rng); // O(n)
     -> sin, cos, asin(sin ^ -1), acos ... ... returns radian; multiply (pi/180) as a parameter to convert to degree;
+    -> Heavy - Light trick, if string length > sqrt(max_string_length) : use hashing else : use trie
 */
 /*  Send debug log to file
     ofstream fcerr("log.txt"); // paste before debug template
