@@ -35,14 +35,17 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 // -------------------------------------- Shorter Debug Code -------------------------------------- //
 #ifndef ONLINE_JUDGE
 #define debug(args...) cerr << "(" << #args << "):", _print(args);
+#define debugGrid(x) cerr << #x <<" "; __print(x); cerr << endl;
 #else
 #define debug(args...)
+#define debugGrid(x)
 #endif
 
 template<typename A, typename B> ostream& operator<<(ostream& os, const pair<A, B>&p) {return os<<'(' << p.first << ", " << p.second << ')';}
 template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream& os, const T_container& v) {os << '{'; string sep;for(const T& x: v) os << sep << x, sep = ", "; return os << '}';}
 void _print() {cerr<<endl;}
-template <typename Head, typename... Tail> void _print(Head H, Tail... T) {cerr << " " << H << ","; _print(T...); }
+template <typename Head, typename... Tail> void _print(Head H, Tail... T) {cerr << " " << H << ","; _print(T...);}
+template <typename T> void __print(vector<vector<T>> v) {cerr << endl; for(auto i:v) { for(auto j:i) {cerr << j << " ";} cerr << endl;}}
 // ------------------------------------------------------------------------------------------------- //
 
 
