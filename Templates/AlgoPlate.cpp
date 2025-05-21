@@ -150,6 +150,29 @@ void sieve(int n){
     for(int i = 2; i < N; i++) if(!marked[i]) primes.pb(i);
 }
 //----------------------------------------------------------------//
+
+
+//------------------------- Number of Divisors ------------------------//
+// N can be expressed as a product of its prime factors: N = p₁^e₁ × p₂^e₂ × ... × pₖ^eₖ
+// The total number of divisors of N is given by:(e₁ + 1) × (e₂ + 1) × ... × (eₖ + 1)
+int numberOfDivisors(int num) { // O(sqrt(n))
+    if (num == 1) return 1;
+    int total = 1;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            int e = 0;
+            do {
+                e++;
+                num /= i;
+            } while (num % i == 0);
+            total *= e + 1;
+        }
+    }
+    if (num > 1) total *= 2;
+    return total;
+}
+//--------------------------------------------------------------------//
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
