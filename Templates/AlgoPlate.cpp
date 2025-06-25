@@ -820,13 +820,24 @@ void solve()
     //////////////////////////////////////
 
     /////////////BITSET///////////////////
-    bitset<10>bits(11);
-    cout<<bits<<endl; // 0000000101 <- accessable as a string
-    cout<<bits[3]<<endl; // returns 4th bit from right
-    cout<<bits.to_ullong()<<endl; // converts to unsigned ll
-    cout<< bits.to_string()<<endl
-        << bits.to_string('*')<<endl
-        << bits.to_string('O', 'X')<<endl;
+    bitset<8> b1;              // 00000000               // O(1)
+    bitset<8> b2("10101010");  // From string            // O(N)
+    b1[1] = 1;                 // Set 2nd bit            // O(1)
+    b1.set(3);                 // Set 4th bit            // O(1)
+    b1.reset(1);               // Clear 2nd bit          // O(1)
+    b1.flip(0);                // Flip 1st bit           // O(1)
+
+    int x = b1.count();        // Number of 1s           // O(N)
+    bool any = b1.any();       // True if any bit is 1   // O(N)
+    bool none = b1.none();     // True if all 0          // O(N)
+    bool test = b1.test(2);    // True if 3rd bit is 1   // O(1)
+
+    bitset<8> b3 = b1 & b2;    // AND                    // O(N)
+    bitset<8> b4 = b1 | b2;    // OR                     // O(N)
+    bitset<8> b5 = b1 ^ b2;    // XOR                    // O(N)
+
+    string s = b1.to_string(); // Convert to string      // O(N)
+    unsigned long val = b1.to_ulong(); // To ulong       // O(N)
     /////////////////////////////////////
 
     /////////sort vector of pair ////////
