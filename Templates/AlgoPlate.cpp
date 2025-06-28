@@ -820,6 +820,8 @@ void solve()
     //////////////////////////////////////
 
     /////////////BITSET///////////////////
+    // faster then vector<bool>
+    // can be used to find if similar value in two different container (using &)
     bitset<8> b1;              // 00000000               // O(1)
     bitset<8> b2("10101010");  // From string            // O(N)
     b1[1] = 1;                 // Set 2nd bit            // O(1)
