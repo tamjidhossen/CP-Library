@@ -258,6 +258,7 @@ int nCr(int n, int r) {
     int ans = numerator / denominator;
     return ans;
 
+    // via inverse factorial
     // int numerator = Factorial[n] % MOD;
     // int denominator = (Factorial[r] % MOD * Factorial[n-r] % MOD) % MOD;
     // denominator = BinaryExponentiation(denominator, MOD-2); // for inverse
