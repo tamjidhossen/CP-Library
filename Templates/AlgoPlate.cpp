@@ -870,6 +870,7 @@ void solve()
         
         return false;
     };
+    // int hi = 1; while(check(hi)) hi *= 2; use this if not sure for hi value
     int lo = 0, hi = n - 1, ans, target;
     while(lo <= hi){
         int mid = lo + (hi - lo) / 2;
