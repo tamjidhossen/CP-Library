@@ -538,6 +538,63 @@ void dfs(int curr, int par, vector<vector<int>>& adj) {
 }
 
 //-----------------------------------------------------------------------------------------------------//
+//-------------------------------------------------SCC kosaraju's------------------------------------------------//
+
+void dfs1(int node, vector<vector<int>> &adj, vector<bool> &vis, stack<int> &st) {
+    vis[node] = true;
+    for (auto nxt : adj[node]) {
+        if (!vis[nxt]) dfs1(nxt, adj, vis, st);
+    }
+    st.push(node); // finish time
+}
+
+void dfs2(int node, vector<vector<int>> &adjT, vector<bool> &vis) {
+    vis[node] = true;
+    cout << node << " "; // this is one component
+    for (auto nxt : adjT[node]) {
+        if (!vis[nxt]) dfs2(nxt, adjT, vis);
+    }
+}
+
+void solve() {
+    int n = 5, m = 5;
+    vector<vector<int>> adj(n);
+    vector<pair<int,int>> edges = {
+        {0, 2}, {2, 1}, {1, 0}, {0, 3}, {3, 4}
+    };
+    
+    // Build graph
+    for (auto &e : edges) {
+        adj[e.first].push_back(e.second);
+    }
+    
+    // Step 1: Order vertices by finish time
+    stack<int> st;
+    vector<bool> vis(n, false);
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) dfs1(i, adj, vis, st);
+    }
+    
+    // Step 2: Transpose graph
+    vector<vector<int>> adjT(n);
+    for (int u = 0; u < n; u++) {
+        for (auto v : adj[u]) {
+            adjT[v].push_back(u);
+        }
+    }
+    
+    // Step 3: DFS in stack order
+    fill(vis.begin(), vis.end(), false);
+    while (!st.empty()) {
+        int node = st.top(); st.pop();
+        if (!vis[node]) {
+            dfs2(node, adjT, vis);
+            cout << "\n"; // new component
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------------------------//
 
 
 
