@@ -538,6 +538,30 @@ void dfs(int curr, int par, vector<vector<int>>& adj) {
 }
 
 //-----------------------------------------------------------------------------------------------------//
+
+
+//------------------------------------------------dijkstra---------------------------------------------//
+
+void dijkstra(int src, vector<int> &dist, vector<vector<pair<int, int>>> &adj) {
+    dist[src] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, src});
+    while (!pq.empty()) {
+        auto [d, u] = pq.top();
+        pq.pop();
+        if (d > dist[u]) continue; // skip outdated entry
+        for (auto [v, w] : adj[u]) {
+            if (dist[v] > dist[u] + w) {
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v}); // push updated dist
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------------------------------//
+
+
+
 //-------------------------------------------------SCC kosaraju's------------------------------------------------//
 
 void dfs1(int node, vector<vector<int>> &adj, vector<bool> &vis, stack<int> &st) {
