@@ -504,6 +504,41 @@ void Bipartite_Graph_Coloring() {
     if(dfs(1, 0)) cout<<"Bipartite\n";
     else cout<<"Not Bipartite\n";
 }
+//-----------------------------------------------------------------------------------------------------//
+
+
+
+
+//-----------------------------------Finding Bridge--------------------------------------------//
+const int N = 10;
+vector<pair<int, int>> bridges;
+vector<bool> vis(N, false);
+vector<int> tin(N, -1);
+vector<int> low(N, -1);
+int timer = 0;
+
+void dfs(int curr, int par, vector<vector<int>>& adj) {
+    vis[curr] = true;
+    tin[curr] = timer + 1;
+    low[curr] = timer + 1;
+    timer++;
+    for (auto child: adj[curr]) {
+        if (child == par) continue;
+        if (!vis[child]) {
+            dfs(child, curr, adj);
+            low[curr] = min(low[curr], low[child]); // chose min of your child
+            if (low[child] > tin[curr]) { // if my normal reach time is smaller than earliest reach time of child, then child must be accessed only through me
+                cout << curr << " " << child << endl;
+                //bridge
+            }
+        } else {
+            low[curr] = min(low[curr], low[child]);
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------------------------------//
+
 
 
 
