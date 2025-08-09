@@ -550,7 +550,7 @@ void dijkstra(int src, vector<int> &dist, vector<vector<pair<int, int>>> &adj) {
         auto [d, u] = pq.top(); // d is the shortest distance to reach u from src
         pq.pop();
         if (d > dist[u]) continue; // skip outdated entry
-        // if (u == dest) break; // works for non-negative edge weight
+        // if (u == dest) break; // works for non-negative edge weight, dijkstra does not work with neg weights
         for (auto [v, w] : adj[u]) {
             if (dist[v] > dist[u] + w) {
                 dist[v] = dist[u] + w;
