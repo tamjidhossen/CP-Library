@@ -547,9 +547,10 @@ void dijkstra(int src, vector<int> &dist, vector<vector<pair<int, int>>> &adj) {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     pq.push({0, src});
     while (!pq.empty()) {
-        auto [d, u] = pq.top();
+        auto [d, u] = pq.top(); // d is the shortest distance to reach u from src
         pq.pop();
         if (d > dist[u]) continue; // skip outdated entry
+        // if (u == dest) break; // works for non-negative edge weight
         for (auto [v, w] : adj[u]) {
             if (dist[v] > dist[u] + w) {
                 dist[v] = dist[u] + w;
