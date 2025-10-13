@@ -916,6 +916,12 @@ void solve()
 
     deque<int> dq; // it's just a duble ended vector
 
+    // tuple
+    tuple<char, int, float> geek;
+    geek = make_tuple('a', 10, 15.5);
+    geek = {'a', 10, 15.5};
+    get<0>(geek) = 'b';
+    cout << get<0>(geek) << " " << get<1>(geek);
 
     /////////upper_bound, lower_bound functions///////////
 
