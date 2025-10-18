@@ -171,6 +171,14 @@ int numberOfDivisors(int num) { // O(sqrt(n))
     if (num > 1) total *= 2;
     return total;
 }
+// precompute divisors
+const int MAX_VAL = 1000001;
+int d[MAX_VAL];
+void precomputeDivisors() {
+    for (int i = 1; i < MAX_VAL; i++) {
+        for (int j = i; j < MAX_VAL; j += i) d[j]++;
+    }
+}
 //--------------------------------------------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
