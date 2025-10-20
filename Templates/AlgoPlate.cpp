@@ -137,7 +137,7 @@ int BinaryExponentiation(int x, int y){
 const int N = 1e7+7;
 bitset<N> marked;
 vector<int>primes;
-void sieve(int n){
+void sieve(int n){ // O(n log log n)
     marked.reset(); //sets every bit to 0
     // vector<bool>marked(N, false);
     marked[1] = true; // 1 not prime
@@ -151,6 +151,30 @@ void sieve(int n){
 }
 //----------------------------------------------------------------//
 
+//------------------------- Smallest Prime Factor (SPF) -------------------------//
+int spf[N];
+void buildSPF(){ // O(n)
+    iota(spf, spf + N, 0); // initially spf[i] = i; spf[i] = 0, 1, 2, 3 ...
+    for(int i = 2; i < N; i++){
+        if(spf[i] == i) primes.pb(i); // prime
+        for(int p : primes){
+            if(p > spf[i] || i * p >= N) break;
+            spf[i * p] = p;
+        }
+    }
+}
+//-------------------------------------------------------------------------------//
+
+//--------------------- Prime Factorization (using SPF) -------------------------//
+vector<int> getPrimeFactors(int n){ // O(log n)
+    vector<int> fact;
+    while(n > 1){
+        fact.pb(spf[n]);
+        n /= spf[n];
+    }
+    return fact;
+}
+//-------------------------------------------------------------------------------//
 
 //------------------------- Number of Divisors ------------------------//
 // N can be expressed as a product of its prime factors: N = p₁^e₁ × p₂^e₂ × ... × pₖ^eₖ
@@ -180,6 +204,62 @@ void precomputeDivisors() {
     }
 }
 //--------------------------------------------------------------------//
+
+//------------------------- Euler Totient Function ------------------------------//
+// φ(n) = number of integers in [1, n] that are coprime to n (gcd(x, n) = 1).
+// φ(p) = p-1 if p is prime; φ(5) = 4; 1, 2, 3, 4 all coprime with 5
+// φ(a*b) = φ(a)*φ(b) if gcd(a,b)=1
+// φ(n) = n × Π(1 - 1/p) over distinct primes p dividing n
+int phi(int n){ // O(log n)
+    int res = n;
+    while(n > 1){
+        int p = spf[n];
+        res -= res / p;
+        while(n % p == 0) n /= p;
+    }
+    return res;
+}
+//-------------------------------------------------------------------------------//
+
+
+//---------------------------- Mobius Function ----------------------------------//
+// μ(n) = 1 if n = 1
+// μ(n) = (-1)^k if n is product of k distinct primes
+// μ(n) = 0 if n has any squared prime factor
+int mobius(int n){ // O(log n)
+    int cnt = 0;
+    while(n > 1){
+        int p = spf[n], c = 0;
+        while(n % p == 0) n /= p, c++;
+        if(c > 1) return 0;
+        cnt++;
+    }
+    return (cnt % 2 == 0) ? 1 : -1;
+}
+//-------------------------------------------------------------------------------//
+
+//------------------------- Euler Totient / Mobius / Sum of Divisors (precomputed) ----------------//
+int phii[N], mob[N], sumDiv[N]; 
+// O(n log log n) precompute
+void precomputePhiMuSum(){
+    for(int i = 0; i < N; i++){
+        phii[i] = i; mob[i] = 1; sumDiv[i] = 1; // init
+    }
+
+    for(int i = 2; i < N; i++){
+        if(phii[i] == i){ // prime
+            for(int j = i; j < N; j += i){
+                phii[j] -= phii[j]/i;         // phi
+                mob[j] *= -1;                // mobius flip
+                sumDiv[j] *= (i*i - 1)/(i-1);// sum divisors formula
+            }
+        }
+        int sq = i*i;
+        if(sq < N) for(int j = sq; j < N; j += sq) mob[j] = 0; // squared factor → μ=0
+    }
+}
+//-------------------------------------------------------------------------------//
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
