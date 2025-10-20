@@ -153,13 +153,20 @@ void sieve(int n){ // O(n log log n)
 
 //------------------------- Smallest Prime Factor (SPF) -------------------------//
 int spf[N];
-void buildSPF(){ // O(n)
+// vector<int> factors[N]; // stores prime factors or disctinct prime factors upto N
+void buildSPF(){ // only SPF -> O(n);    +Prime Factors -> ~ O(NlogN) / ~ O(NloglogN)
     iota(spf, spf + N, 0); // initially spf[i] = i; spf[i] = 0, 1, 2, 3 ...
     for(int i = 2; i < N; i++){
-        if(spf[i] == i) primes.pb(i); // prime
+        if(spf[i] == i){ 
+            primes.pb(i); 
+            // factors[i].pb(i); // prime itself
+        }
         for(int p : primes){
             if(p > spf[i] || i * p >= N) break;
             spf[i * p] = p;
+            // factors[i*p] = factors[i]; // ~ O(log i)
+            // factors[i*p].pb(p); // contains all prime factors (ex: factors[8] = 2, 2, 2)
+            // if (factors[i*p].empty() || factors[i*p].back() != p) factors[i*p].pb(p); // for distinct factors (ex: factors[8] = 2)
         }
     }
 }
