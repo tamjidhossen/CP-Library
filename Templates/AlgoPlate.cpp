@@ -8,31 +8,7 @@ using namespace std;
 #define size(x) (int) x.size()
 #define all(x) (x).begin(), (x).end() 
 
-#ifndef ONLINE_JUDGE
-#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
-#define debugin(x) cerr << #x <<" "; _print(x); cerr << "; ";
-#define debugGrid(x) cerr << #x <<" "; __print(x); cerr << endl;
-#else
-#define debug(x)
-#define debugin(x)
-#define debugGrid(x)
-#endif
-
-void _print(int t) {cerr << t;}void _print(string t) {cerr << t;}void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}void _print(double t) {cerr << t;}void _print(ull t) {cerr << t;}
-template <class T, class V> void _print(pair <T, V> p);
-template <class T> void _print(vector <T> v);template <class T> void _print(set <T> v);
-template <class T, class V> void _print(map <T, V> v);template <class T> void _print(multiset <T> v);
-template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.first); cerr << ","; _print(p.second); cerr << "}";}
-template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void __print(vector<vector<T>> v) {cerr << endl; for(auto i:v) { for(auto j:i) {_print(j); cerr << " ";} cerr << endl;}}
-template <class T> void _print(deque <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-
-// -------------------------------------- Shorter Debug Code -------------------------------------- //
+// -------------------------------------- Debug Code -------------------------------------- //
 #ifndef ONLINE_JUDGE
 #define debug(args...) cerr << "(" << #args << "):", _print(args);
 #define debugGrid(x) cerr << #x <<" "; __print(x); cerr << endl;
@@ -319,13 +295,6 @@ int numOfDigits(int n) { return floor(log10(n) + 1); }
 
 
 
-
-
-
-
-
-
-
 ///////////////////////////////////////////////// Combinatorics /////////////////////////////////////////////////
 /*
     # All non empty substring of length n: (n*(n+1))/2;
@@ -380,11 +349,6 @@ int nPr(int n, int r) {
 //-----------------------------------------------------------------//
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 
 
@@ -574,9 +538,6 @@ void Path_Between_Two_Nodes(int x, int y) {
 } 
 //-----------------------------------------------------------------------------------------------------//
 
-
-
-
 //-------------------------------------Bipartite Graph-------------------------------------------------//
 vector<vector<int>>adj;
 vector<int>color;
@@ -600,16 +561,12 @@ void Bipartite_Graph_Coloring() {
     else cout<<"Not Bipartite\n";
 }
 //-----------------------------------------------------------------------------------------------------//
-
-
-
-
 //-----------------------------------Finding Bridge--------------------------------------------//
 const int N = 10;
 vector<pair<int, int>> bridges;
 vector<bool> vis(N, false);
-vector<int> tin(N, -1);
-vector<int> low(N, -1);
+vector<int> tin(N, -1); // time of incersion
+vector<int> low(N, -1); // lowest time of incersion except from parent
 int timer = 0;
 
 void dfs(int curr, int par, vector<vector<int>>& adj) {
@@ -631,12 +588,8 @@ void dfs(int curr, int par, vector<vector<int>>& adj) {
         }
     }
 }
-
 //-----------------------------------------------------------------------------------------------------//
-
-
 //------------------------------------------------dijkstra---------------------------------------------//
-
 void dijkstra(int src, vector<int> &dist, vector<vector<pair<int, int>>> &adj) {
     dist[src] = 0;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
@@ -656,10 +609,8 @@ void dijkstra(int src, vector<int> &dist, vector<vector<pair<int, int>>> &adj) {
 }
 //-----------------------------------------------------------------------------------------------------//
 
-
-
 //-------------------------------------------------SCC kosaraju's------------------------------------------------//
-
+// only valid for directed graph
 void dfs1(int node, vector<vector<int>> &adj, vector<bool> &vis, stack<int> &st) {
     vis[node] = true;
     for (auto nxt : adj[node]) {
@@ -667,7 +618,6 @@ void dfs1(int node, vector<vector<int>> &adj, vector<bool> &vis, stack<int> &st)
     }
     st.push(node); // finish time
 }
-
 void dfs2(int node, vector<vector<int>> &adjT, vector<bool> &vis) {
     vis[node] = true;
     cout << node << " "; // this is one component
@@ -720,7 +670,7 @@ void solve() {
 
 
 
-//-------------------------------------DSU-----------------------------------------//
+//------------------------------------DSU-----------------------------------------//
 
 vector<int>parent, childs;
 struct {
@@ -962,13 +912,104 @@ struct Manachers { // O(n)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//////////////////////////////////////////////// Range Query ////////////////////////////////////////////////////////////////
+// segment tree basic:
+struct segTree {    
+    int size = 1;
+    vector<int> tree;
+    segTree(int n) {
+        while (size < n) size <<= 1;
+        tree.assign(2 * size, 0LL);
+    }
+    void build(vector<int> &v, int curr, int lx, int rx) {
+        if (rx - lx == 1) { // 0 - 1, 1 - 2, 2 - 3 ...
+            if (lx < size(v)) {
+                tree[curr] = v[lx];
+            }
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        build(v, 2 * curr + 1, lx, mid);
+        build(v, 2 * curr + 2, mid, rx);
+        tree[curr] = tree[2 * curr + 1] + tree[2 * curr + 2];
+    }
+    void build(vector<int> &v) { build(v, 0, 0, size); }
+    void set(int indx, int val, int curr, int lx, int rx) { // O(logn)
+        if (rx - lx == 1) { // range is l ... (r - 1)
+            tree[curr] = val;
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        if (indx < mid) set(indx, val, 2 * curr + 1, lx, mid);
+        else set(indx, val, 2 * curr + 2, mid, rx);
+        tree[curr] = tree[2 * curr + 1] + tree[2 * curr + 2];
+    }
+    void set(int indx, int val) { set(indx, val, 0, 0, size); }
+    int sum(int l, int r, int curr, int lx, int rx) { // O(logn)
+        if (rx <= l || lx >= r) return 0;
+        if (lx >= l && rx <= r) return tree[curr];
+        int mid = (lx + rx) / 2;
+        int left = sum(l, r, 2 * curr + 1, lx, mid);
+        int right = sum(l, r, 2 * curr + 2, mid, rx);
+        return left + right;
+    }
+    int sum(int l, int r) { return sum(l, r, 0, 0, size); }
+};
 
+// lazy propagation
+struct Node {
+    int sum, inc;
+};
+struct segTree {
+    int size = 1;
+    vector<Node> tree;
+    Node neutral = {0, 0};
+    segTree(int n) {
+        while (size < n) size <<= 1;
+        tree.assign(2 * size, neutral);
+    }
+    void push(int curr, int lx, int rx) {
+        if (tree[curr].inc == 0) return;
+        int mid = (lx + rx) / 2;
+        tree[2 * curr + 1].inc += tree[curr].inc;
+        tree[2 * curr + 1].sum += tree[curr].inc * (mid - lx);
+        tree[2 * curr + 2].inc += tree[curr].inc;
+        tree[2 * curr + 2].sum += tree[curr].inc * (rx - mid);
+        tree[curr].inc = 0;
+    }
+    void set(int inc, int l, int r, int curr, int lx, int rx) { // O(logn)
+        if (rx <= l || lx >= r) return;
+        if (lx >= l && rx <= r) {
+            tree[curr].inc += inc;
+            tree[curr].sum += inc * (rx - lx);
+            return;
+        }
+        push(curr, lx, rx);
+        int mid = (lx + rx) / 2;
+        set(inc, l, r, 2 * curr + 1, lx, mid);
+        set(inc, l, r, 2 * curr + 2, mid, rx);
+        tree[curr].sum = tree[2 * curr + 1].sum + tree[2 * curr + 2].sum;
+    }
+    void set(int l, int r, int inc) {
+        set(inc, l, r, 0, 0, size);
+    }
+    int get(int l, int r, int curr, int lx, int rx) { // O(logn)
+        if (rx <= l || lx >= r) return 0;
+        if (lx >= l && rx <= r) {
+            return tree[curr].sum;
+        }
+        push(curr, lx, rx);
+        int mid = (lx + rx) / 2;
+        int s1 = get(l, r, 2 * curr + 1, lx, mid);
+        int s2 = get(l, r, 2 * curr + 2, mid, rx);
+        return s1 + s2;
+    }   
+    int get(int l, int r) {
+        return get(l, r, 0, 0, size);
+    }
+};
 
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////// SORTING ////////////////////////////////////////////////////
 
