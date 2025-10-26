@@ -403,8 +403,12 @@ void BFS(int initial) {
     while(!q.empty()) {
         int curr = q.front();
         cout<<curr<<" ";
-        vis[curr] = true;
-        for(auto i: adj[curr]) if(!vis[i]) q.push(i);
+        for(auto i: adj[curr]) {
+            if(!vis[i]) {
+                vis[i] = true;
+                q.push(i);
+            }
+        }
         q.pop();
     }
 }
@@ -449,6 +453,7 @@ void BFS(int initial) {
             if(dist[i] > dist[curr]+1) { // here, curr is the parent of i
                 dist[i] = dist[curr] + 1;      
                 q.push(i);
+                // vis[i] = true; // if vis needed
             }      
         }
         q.pop();
@@ -510,12 +515,12 @@ void BFS(int initial) {
     q.push(initial);
     while(!q.empty()) {
         int curr = q.front();
-        vis[curr] = true;
-        if(curr == y) return;
         for(auto i: adj[curr]) {
             if(!vis[i]) {
-                q.push(i);
+                vis[i] = true;
                 parent[i] = curr;
+                if(curr == y) return;
+                q.push(i);
             }
         }
         q.pop();
@@ -530,6 +535,7 @@ void backtrack(vector<int>&v, int last) {
 }
 void Path_Between_Two_Nodes(int x, int y) {
     // adj.resize(n+1, vector<int>()); -> in solve()
+    // vis, parent[x] = -1;
     BFS(x);
     vector<int>ans;
     backtrack(ans, y);
