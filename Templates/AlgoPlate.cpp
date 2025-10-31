@@ -1000,7 +1000,7 @@ struct segTree {
         set(inc, l, r, 0, 0, size);
     }
     int get(int l, int r, int curr, int lx, int rx) { // O(logn)
-        if (rx <= l || lx >= r) return 0;
+        if (rx <= l || lx >= r) return 0; // neutral???
         if (lx >= l && rx <= r) {
             return tree[curr].sum;
         }
@@ -1008,6 +1008,7 @@ struct segTree {
         int mid = (lx + rx) / 2;
         int s1 = get(l, r, 2 * curr + 1, lx, mid);
         int s2 = get(l, r, 2 * curr + 2, mid, rx);
+        // do we merge?
         return s1 + s2;
     }   
     int get(int l, int r) {
