@@ -996,7 +996,7 @@ struct segTree {
         set(inc, l, r, 2 * curr + 2, mid, rx);
         tree[curr].sum = tree[2 * curr + 1].sum + tree[2 * curr + 2].sum;
     }
-    void set(int l, int r, int inc) {
+    void set(int inc, int l, int r) {
         set(inc, l, r, 0, 0, size);
     }
     int get(int l, int r, int curr, int lx, int rx) { // O(logn)
