@@ -169,13 +169,34 @@ int numberOfDivisors(int num) { // O(sqrt(n))
         if (num % i == 0) {
             int e = 0;
             do {
-                e++;
-                num /= i;
+                e++; num /= i;
             } while (num % i == 0);
             total *= e + 1;
         }
     }
     if (num > 1) total *= 2;
+    return total;
+}
+// The sum of all divisors of N is given by:
+// (1 + p₁ + p₁² + ... + p₁ᵉ¹) × (1 + p₂ + p₂² + ... + p₂ᵉ²) × ... × (1 + pₖ + pₖ² + ... + pₖᵉᵏ)
+// Each bracket can also be written as: (pᵢ^(eᵢ+1) - 1) / (pᵢ - 1)
+// Hence, σ(N) = Π ( (pᵢ^(eᵢ+1) - 1) / (pᵢ - 1) )
+int sumOfDivisors(int num) { // O(sqrt(n))
+    int total = 1;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            int e = 0;
+            do {
+                e++; num /= i;
+            } while (num % i == 0);
+            int sum = 0, pow = 1;
+            do {
+                sum += pow; pow *= i;
+            } while (e-- > 0);
+            total *= sum;
+        }
+    }
+    if (num > 1) { total *= (1 + num); }
     return total;
 }
 // precompute divisors
@@ -225,20 +246,28 @@ int mobius(int n){ // O(log n)
 int phii[N], mob[N], sumDiv[N]; 
 // O(n log log n) precompute
 void precomputePhiMuSum(){
-    for(int i = 0; i < N; i++){
-        phii[i] = i; mob[i] = 1; sumDiv[i] = 1; // init
-    }
-
+    iota(phii, phii + N, 0); // phii[i] = i
+    fill(mob, mob + N, 1);
+    fill(sumDiv, sumDiv + N, 1);
+    mob[0] = 0; phii[0] = 0; sumDiv[0] = 0;
     for(int i = 2; i < N; i++){
-        if(phii[i] == i){ // prime
+        if(phii[i] == i){ // i is a prime number
             for(int j = i; j < N; j += i){
-                phii[j] -= phii[j]/i;         // phi
-                mob[j] *= -1;                // mobius flip
-                sumDiv[j] *= (i*i - 1)/(i-1);// sum divisors formula
+                phii[j] -= phii[j]/i; mob[j] *= -1;
+                int p_power_k = i;
+                int sum_p_powers = 1;
+                int temp_j = j;
+                while (temp_j % i == 0) {
+                    sum_p_powers += p_power_k; p_power_k *= i; temp_j /= i;
+                }
+                sumDiv[j] *= sum_p_powers;
+            }
+            if (i * i < N) {
+                for (int j = i * i; j < N; j += i * i) {
+                    mob[j] = 0;
+                }
             }
         }
-        int sq = i*i;
-        if(sq < N) for(int j = sq; j < N; j += sq) mob[j] = 0; // squared factor → μ=0
     }
 }
 //-------------------------------------------------------------------------------//
