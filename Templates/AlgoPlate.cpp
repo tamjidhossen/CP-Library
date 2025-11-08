@@ -1098,7 +1098,7 @@ void solve()
     /////////upper_bound, lower_bound functions///////////
 
     auto lower = lower_bound(all(v), n); //returns iterator
-    // index of first occurrence of the value in the range
+    // index of first occurrence of the value in the range; prev(lower): gives the value previous to iterator prev (do check if its the begin iterator or not first)
     int upper = upper_bound(all(v), n) - v.begin();
     // index of the first occurrence of a value that is greater than the searched value
     //If not present, than returns the next index
